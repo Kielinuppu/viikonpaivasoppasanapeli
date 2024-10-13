@@ -34,17 +34,10 @@
         }
 
         h1, h2 {
+            font-size: 2em;
             margin-bottom: 20px;
             text-align: center;
             text-transform: uppercase;
-        }
-
-        h1 {
-            font-size: 2em;
-        }
-
-        h2 {
-            font-size: 2em;
         }
 
         #gameArea {
@@ -119,7 +112,6 @@
 
         .thumbnail {
             width: 100%;
-            max-width: 100px;  
             aspect-ratio: 1 / 1;
             object-fit: cover;
             cursor: pointer;
@@ -153,20 +145,12 @@
             #thumbnailContainer {
                 grid-template-columns: repeat(3, 1fr);
             }
-
-            .thumbnail {
-                max-width: 80px;  
-            }
         }
 
         @media (max-width: 480px) {
             #nextArrow {
                 width: 75px;
                 height: 75px;
-            }
-
-            .thumbnail {
-                max-width: 60px;  
             }
         }
     </style>
