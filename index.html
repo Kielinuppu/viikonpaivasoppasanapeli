@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIIKONLOPPUSOPPA</title>
+    <title>VIIKONPÄIVÄSOPPA</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -33,10 +33,18 @@
             overflow-y: auto;
         }
 
-        h1 {
+        h1, h2 {
             margin-bottom: 20px;
             text-align: center;
             text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        h2 {
+            font-size: 2em;
         }
 
         #gameArea {
@@ -106,11 +114,12 @@
             justify-content: center;
             margin-top: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 400px;
         }
 
         .thumbnail {
             width: 100%;
+            max-width: 100px;  
             aspect-ratio: 1 / 1;
             object-fit: cover;
             cursor: pointer;
@@ -132,7 +141,7 @@
                 font-size: 14px;
             }
 
-            h1 {
+            h1, h2 {
                 font-size: 1.5em;
             }
 
@@ -144,6 +153,10 @@
             #thumbnailContainer {
                 grid-template-columns: repeat(3, 1fr);
             }
+
+            .thumbnail {
+                max-width: 80px;  
+            }
         }
 
         @media (max-width: 480px) {
@@ -151,19 +164,24 @@
                 width: 75px;
                 height: 75px;
             }
+
+            .thumbnail {
+                max-width: 60px;  
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>VIIKONLOPPUSOPPA</h1>
+        <h1 id="mainTitle">VIIKONPÄIVÄSOPPA</h1>
+        <h2 id="gameHeader" style="display: none;"></h2>
         <div id="gameArea">
             <div id="buttonContainer">
                 <button id="sanaButton" class="button">SANA</button>
                 <button id="tavutettuButton" class="button">TAVUTETTU</button>
             </div>
             <div id="imageContainer" style="display: none;">
-                <img id="currentImage" src="" alt="Viikonloppukuva">
+                <img id="currentImage" src="" alt="Viikonpäiväkuva">
                 <img id="nextArrow" src="nuoli.avif" alt="Seuraava" style="display: none;">
             </div>
             <div id="thumbnailContainer" style="display: none;"></div>
@@ -178,6 +196,7 @@
         let currentIndex = 0;
         let currentGameMode = '';
 
+        const mainTitle = document.getElementById('mainTitle');
         const sanaButton = document.getElementById('sanaButton');
         const tavutettuButton = document.getElementById('tavutettuButton');
         const imageContainer = document.getElementById('imageContainer');
@@ -185,6 +204,7 @@
         const nextArrow = document.getElementById('nextArrow');
         const thumbnailContainer = document.getElementById('thumbnailContainer');
         const switchGameButton = document.getElementById('switchGameButton');
+        const gameHeader = document.getElementById('gameHeader');
 
         sanaButton.addEventListener('click', () => startGame('sana'));
         tavutettuButton.addEventListener('click', () => startGame('tavutettu'));
@@ -193,11 +213,14 @@
 
         function startGame(mode) {
             currentGameMode = mode;
+            mainTitle.style.display = 'none';
             document.getElementById('buttonContainer').style.display = 'none';
             imageContainer.style.display = 'flex';
             thumbnailContainer.style.display = 'none';
             thumbnailContainer.innerHTML = '';
             switchGameButton.style.display = 'none';
+            gameHeader.style.display = 'block';
+            gameHeader.textContent = mode === 'tavutettu' ? 'TAVUTA SANAT TAPUTTAEN:' : 'TOISTA SANAT:';
             currentIndex = 0;
 
             showImage(0);
