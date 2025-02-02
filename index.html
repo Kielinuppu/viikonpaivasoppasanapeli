@@ -106,17 +106,19 @@
        }
 
        #thumbnailContainer {
-           display: grid;
-           grid-template-columns: repeat(4, 1fr);
-           gap: 10px;
-           justify-content: center;
-           margin-top: 20px;
-           width: 100%;
-           max-width: 400px;
-       }
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin: 10px auto; 
+    width: 100%;
+    max-width: 400px;
+    place-items: center; 
+}
 
        .thumbnail {
-           width: 100%;
+           width: 100px;
+           height: 100px;
            aspect-ratio: 1 / 1;
            object-fit: cover;
            cursor: pointer;
@@ -129,35 +131,47 @@
        }
 
        @media (max-width: 768px) {
-           .container {
-               padding: 10px;
-           }
+    .container {
+        padding: 10px;
+    }
 
-           .button {
-               padding: 8px 16px;
-               font-size: 14px;
-           }
+    .button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 
-           h1, h2 {
-               font-size: 1.5em;
-           }
+    h1 {
+        font-size: 1.5em;
+    }
 
-           #nextArrow {
-               width: 100px;
-               height: 100px;
-           }
+    #nextArrow {
+        width: 100px;
+        height: 100px;
+    }
 
-           #thumbnailContainer {
-               grid-template-columns: repeat(3, 1fr);
-           }
-       }
+    #thumbnailContainer {
+        max-width: 270px;
+    }
 
-       @media (max-width: 480px) {
-           #nextArrow {
-               width: 75px;
-               height: 75px;
-           }
-       }
+    .thumbnail {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+@media (max-width: 480px) {
+    #thumbnailContainer {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        max-width: 250px;
+    }
+    
+    .thumbnail {
+        width: 75px;
+        height: 75px;
+    }
+}
    </style>
 </head>
 <body>
@@ -232,21 +246,24 @@
        }
 
        function showNextImage() {
-           if (audioPlaying) return;
-           currentIndex++;
-           if (currentIndex < 7) {
-               audioPlaying = true;
-               nextArrow.classList.add('disabled-arrow');
-               showImage(currentIndex);
-               
-               playAudio(currentGameMode === 'tavutettu' ? audiosTavutettu[currentIndex] : audiosSana[currentIndex], () => {
-                   audioPlaying = false;
-                   nextArrow.classList.remove('disabled-arrow');
-               });
-           } else {
-               showThumbnails();
-           }
-       }
+    if (audioPlaying) return;
+    currentIndex++;
+    if (currentIndex < 7) {
+        audioPlaying = true;
+        nextArrow.classList.add('disabled-arrow');
+        showImage(currentIndex);
+        
+        const audio = new Audio(currentGameMode === 'tavutettu' ? audiosTavutettu[currentIndex] : audiosSana[currentIndex]);
+        audio.play();
+        
+        setTimeout(() => {
+            audioPlaying = false;
+            nextArrow.classList.remove('disabled-arrow');
+        }, 1500);
+    } else {
+        showThumbnails();
+    }
+}
 
        function playAudio(audioSrc, callback) {
            const audio = new Audio(audioSrc);
